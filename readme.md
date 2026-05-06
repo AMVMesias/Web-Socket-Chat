@@ -130,16 +130,16 @@ sequenceDiagram
 ### Interfaz de Chat
 ![Vista de chat y mensajes](docs/screenshots/chat.png)
 
-## Validación del Enunciado
+## Cumplimiento de Requisitos
 
-- `message_read` se emite cuando el receptor visualiza el mensaje.
-- La confirmación de lectura se retransmite únicamente al emisor original.
-- El emisor ve doble check y detalle de lectores.
-- Los TTL disponibles son 10 segundos, 1 minuto y 5 minutos.
-- La autodestruccion inicia cuando todos los receptores leyeron el mensaje.
-- Los mensajes temporales desaparecen del cliente al finalizar la cuenta regresiva.
-- No existe historial de mensajes en servidor ni persistencia en base de datos.
-- El ingreso exige seudonimo y sala privada.
-- La pantalla principal permite crear salas con cupo y listar salas disponibles.
-- Los mensajes se retransmiten solo dentro de la sala.
-- La UI muestra ingreso, chat, burbujas, hora, temporizador y usuarios conectados.
+- [x] `message_read` se emite cuando el receptor visualiza el mensaje.
+- [x] La confirmación de lectura se retransmite únicamente al emisor original.
+- [x] El emisor ve doble check y detalle de lectores.
+- [x] Los TTL disponibles son 10 segundos, 1 minuto y 5 minutos.
+- [x] La autodestrucción inicia cuando todos los receptores leyeron el mensaje.
+- [x] Los mensajes temporales desaparecen del cliente al finalizar la cuenta regresiva.
+- [x] No existe historial de mensajes en servidor ni persistencia en base de datos.
+- [x] El ingreso exige seudónimo y sala privada.
+- [x] La pantalla principal permite crear salas con cupo y listar salas disponibles.
+- [x] Los mensajes se retransmiten solo dentro de la sala.
+- [x] La UI muestra ingreso, chat, burbujas, hora, temporizador y usuarios conectados.
