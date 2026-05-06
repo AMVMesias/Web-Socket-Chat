@@ -11,7 +11,7 @@ interface MessageWithCountdown extends Message {
 interface ChatPanelProps {
   inputValue: string;
   messages: MessageWithCountdown[];
-  messagesEndRef: React.RefObject<HTMLDivElement>;
+  messagesEndRef: React.RefObject<HTMLDivElement | null>;
   setInputValue: (value: string) => void;
   setMessageRef: (messageId: string) => (node: HTMLDivElement | null) => void;
   setTtl: (value: number) => void;
