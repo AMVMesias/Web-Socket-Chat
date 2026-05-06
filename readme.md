@@ -1,6 +1,6 @@
 # Sistema de Mensajería Privada en Tiempo Real
 
-**Autor:** AMVMesias  
+**Integrantes:** Mesias Mariscal, Denise Rea, Julio Viche  
 **Fecha:** 6 de mayo de 2026  
 **Materia:** Aplicaciones Distribuidas - Laboratorio 2  
 **Profesor:** Geovanny Cudco
@@ -28,9 +28,10 @@ Aplicación de chat privado en tiempo real construida con **Flask-SocketIO** en 
 
 ### Backend Flask
 
-Desde la raíz del proyecto:
+Navegar a la carpeta `server`:
 
 ```bash
+cd server
 python -m venv venv
 venv\Scripts\activate
 pip install -r requirements.txt
@@ -45,15 +46,15 @@ http://127.0.0.1:5000/
 
 ### Frontend React
 
-El backend sirve el build de producción desde `frontend/dist`. Para reconstruirlo:
+Para facilitar la ejecución local, puedes correr el servidor de desarrollo de React. Este ya está configurado para conectarse automáticamente al backend en el puerto 5000:
 
 ```bash
 cd frontend
 npm install
-npm run build
+npm run dev
 ```
 
-Luego abrir `http://127.0.0.1:5000/` en dos navegadores o en una ventana normal y otra de incognito. Crear una sala desde la pantalla principal, elegir el cupo maximo y entrar con usuarios distintos seleccionando esa sala desde la lista.
+Luego abre la dirección que te indique Vite (usualmente `http://localhost:5173/`) en dos navegadores o en una ventana normal y otra de incógnito. Crea una sala desde la pantalla principal, elige el cupo máximo y entra con usuarios distintos seleccionando esa sala desde la lista.
 
 ## Explicación Técnica
 
@@ -120,6 +121,10 @@ sequenceDiagram
     A->>A: inicia TTL
     B->>B: inicia TTL
 ```
+
+## Capturas o Diagramas
+
+Pendiente: aqui se agregaran las capturas de pantalla o un diagrama adicional de los eventos SocketIO.
 
 ## Validación del Enunciado
 
