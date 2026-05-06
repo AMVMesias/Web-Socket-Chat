@@ -2,8 +2,10 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import type { FormEvent, MouseEvent as ReactMouseEvent } from 'react';
 import { io } from 'socket.io-client';
 import type { Socket } from 'socket.io-client';
-import { Send, Clock, Check, CheckCheck, Users, LogOut, Eye } from 'lucide-react';
+import { Send, Clock, Check, CheckCheck, Eye } from 'lucide-react';
 import type { Message } from '../types';
+import ErrorTemplate from './templates/ErrorTemplate';
+import SideBar from './organisms/SideBar';
 
 interface ChatProps {
   username: string;
@@ -59,7 +61,7 @@ const getReadSummary = (message: MessageWithCountdown, fallbackRecipientCount: n
 
 const socketUrl = import.meta.env.DEV ? 'http://127.0.0.1:5000' : window.location.origin;
 
-export default function Chat({ username, room, onLeave }: ChatProps) {
+export default function Room({ username, room, onLeave }: ChatProps) {
   const socketRef = useRef<Socket | null>(null);
   const [socketReady, setSocketReady] = useState(false);
   const [messages, setMessages] = useState<MessageWithCountdown[]>([]);
@@ -102,13 +104,16 @@ export default function Chat({ username, room, onLeave }: ChatProps) {
     currentSocket.emit('message_read', { message_id: message.id });
   }, []);
 
-  const setMessageRef = useCallback((messageId: string) => (node: HTMLDivElement | null) => {
-    if (node) {
-      messageRefs.current.set(messageId, node);
-    } else {
-      messageRefs.current.delete(messageId);
-    }
-  }, []);
+  const setMessageRef = useCallback(
+    (messageId: string) => (node: HTMLDivElement | null) => {
+      if (node) {
+        messageRefs.current.set(messageId, node);
+      } else {
+        messageRefs.current.delete(messageId);
+      }
+    },
+    [],
+  );
 
   useEffect(() => {
     const newSocket = io(socketUrl);
@@ -155,11 +160,11 @@ export default function Chat({ username, room, onLeave }: ChatProps) {
           if (message.id !== data.message_id) return message;
 
           const existingReadBy = message.readBy ?? [];
-          const readBy = data.readBy ?? (
-            data.reader && !existingReadBy.includes(data.reader)
+          const readBy =
+            data.readBy ??
+            (data.reader && !existingReadBy.includes(data.reader)
               ? [...existingReadBy, data.reader]
-              : existingReadBy
-          );
+              : existingReadBy);
           const recipientCount = data.recipient_count ?? message.recipient_count ?? 0;
           const readCount = data.read_count ?? readBy.length;
           const allRead = data.all_read ?? (recipientCount > 0 && readCount >= recipientCount);
@@ -226,7 +231,7 @@ export default function Chat({ username, room, onLeave }: ChatProps) {
 
           const messageId = entry.target.getAttribute('data-message-id');
           if (messageId) {
-            const message = messages.find(m => m.id === messageId);
+            const message = messages.find((m) => m.id === messageId);
             if (message) markMessageAsRead(message);
             observer.unobserve(entry.target);
           }
@@ -339,67 +344,36 @@ export default function Chat({ username, room, onLeave }: ChatProps) {
     ? messages.find((message) => message.id === readerMenu.messageId)
     : undefined;
 
+  // Error al unirse a sala
   if (joinError) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-gray-900 p-4 text-white">
-        <div className="w-full max-w-md rounded-lg border border-gray-700 bg-gray-800 p-6 shadow-xl">
-          <h1 className="text-xl font-semibold">No se pudo entrar</h1>
-          <p className="mt-2 text-sm text-gray-300">{joinError}</p>
-          <button
-            type="button"
-            onClick={onLeave}
-            className="mt-5 w-full rounded-lg bg-blue-600 px-4 py-3 text-sm font-semibold transition-colors hover:bg-blue-700"
-          >
-            Volver al inicio
-          </button>
-        </div>
-      </div>
+      <ErrorTemplate title="No se pudo entrar" subtitle={joinError}>
+        <button
+          type="button"
+          onClick={onLeave}
+          className="mt-5 w-full rounded-lg bg-blue-600 px-4 py-3 text-sm font-semibold transition-colors hover:bg-blue-700"
+        >
+          Volver al inicio
+        </button>
+      </ErrorTemplate>
     );
   }
 
   return (
     <div className="flex h-screen bg-gray-900 text-white">
-      <div className="w-64 bg-gray-800 border-r border-gray-700 flex flex-col">
-        <div className="p-4 border-b border-gray-700">
-          <h2 className="text-xl font-bold flex items-center gap-2">
-            <Users className="w-5 h-5" />
-            Sala: {room}
-          </h2>
-          <p className="text-sm text-gray-400 mt-1">Usuario: {username}</p>
-        </div>
+      {/* Barra lateral */}
+      <SideBar room={room} username={username} users={users} onLeave={onLeave} />
 
-        <div className="flex-1 overflow-y-auto p-4">
-          <h3 className="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-3">
-            Conectados ({users.length})
-          </h3>
-          <ul className="space-y-2">
-            {users.map((user, index) => (
-              <li key={`${user}-${index}`} className="flex items-center gap-2">
-                <div className="w-2 h-2 rounded-full bg-green-500" />
-                {user} {user === username && '(tu)'}
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        <div className="p-4 border-t border-gray-700">
-          <button
-            onClick={onLeave}
-            className="w-full flex items-center justify-center gap-2 py-2 px-4 bg-red-600 hover:bg-red-700 rounded-lg transition-colors"
-          >
-            <LogOut className="w-4 h-4" />
-            Salir
-          </button>
-        </div>
-      </div>
-
+      {/* Posible componente: <ChatPanel /> */}
       <div className="flex-1 flex flex-col min-w-0">
+        {/* Posible componente: <MessageList /> */}
         <div className="flex-1 overflow-y-auto p-6 space-y-6">
           {messages.map((message) => {
             const isMe = message.username === username;
             const readSummary = getReadSummary(message, Math.max(users.length - 1, 0));
             const readBy = message.readBy ?? [];
 
+            // Posible componente: <ChatBubble />
             return (
               <div key={message.id} className={`flex ${isMe ? 'justify-end' : 'justify-start'}`}>
                 <div
@@ -412,9 +386,7 @@ export default function Chat({ username, room, onLeave }: ChatProps) {
                   }`}
                 >
                   {!isMe && (
-                    <div className="text-xs text-gray-300 font-bold mb-1">
-                      {message.username}
-                    </div>
+                    <div className="text-xs text-gray-300 font-bold mb-1">{message.username}</div>
                   )}
 
                   <div className="break-words">{message.message}</div>
@@ -429,7 +401,9 @@ export default function Chat({ username, room, onLeave }: ChatProps) {
                         className={`flex items-center gap-1 ${
                           message.expiresAt ? 'text-orange-200' : 'text-gray-300'
                         }`}
-                        title={message.expiresAt ? 'Autodestruccion activa' : 'Esperando que todos lean'}
+                        title={
+                          message.expiresAt ? 'Autodestruccion activa' : 'Esperando que todos lean'
+                        }
                       >
                         <Clock className="w-3 h-3" />
                         {message.expiresAt
@@ -456,7 +430,11 @@ export default function Chat({ username, room, onLeave }: ChatProps) {
                         ) : (
                           <Check className="w-4 h-4" />
                         )}
-                        <span>{message.recipient_count ? `${readBy.length}/${message.recipient_count}` : ''}</span>
+                        <span>
+                          {message.recipient_count
+                            ? `${readBy.length}/${message.recipient_count}`
+                            : ''}
+                        </span>
                       </button>
                     )}
                   </div>
@@ -467,6 +445,7 @@ export default function Chat({ username, room, onLeave }: ChatProps) {
           <div ref={messagesEndRef} />
         </div>
 
+        {/* Posible componente: <ChatInput /> */}
         <div className="p-4 bg-gray-800 border-t border-gray-700">
           <form onSubmit={handleSend} className="flex gap-2">
             <select
@@ -499,6 +478,7 @@ export default function Chat({ username, room, onLeave }: ChatProps) {
         </div>
       </div>
 
+      {/* Posible componente: <ReadByDialog /> */}
       {readerMenu && selectedMessage && (
         <div
           role="dialog"
