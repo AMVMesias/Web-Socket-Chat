@@ -124,7 +124,11 @@ sequenceDiagram
 
 ## Capturas o Diagramas
 
-Pendiente: aqui se agregaran las capturas de pantalla o un diagrama adicional de los eventos SocketIO.
+### Lobby / Crear y Unirse a Salas
+![Pantalla de inicio y salas](docs/screenshots/joinroom.png)
+
+### Interfaz de Chat
+![Vista de chat y mensajes](docs/screenshots/chat.png)
 
 ## Validación del Enunciado
 
