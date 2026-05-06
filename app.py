@@ -170,9 +170,6 @@ def handle_create_room(data):
     room = clean_text(data.get('room'))
     capacity = normalize_capacity(data.get('capacity'))
 
-    if not username:
-        return {'ok': False, 'error': 'Escribe tu nombre antes de crear una sala.'}
-
     if not room:
         return {'ok': False, 'error': 'Escribe un nombre o codigo para la sala.'}
 
@@ -190,7 +187,7 @@ def handle_create_room(data):
 
     room_configs[room] = {
         'capacity': capacity,
-        'created_by': username,
+        'created_by': username or 'Anfitrion',
         'created_at': time.time(),
     }
 

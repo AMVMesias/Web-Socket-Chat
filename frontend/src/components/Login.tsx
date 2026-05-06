@@ -88,11 +88,6 @@ export default function Login({ onJoin }: LoginProps) {
     const cleanUsername = username.trim();
     const cleanRoom = newRoom.trim();
 
-    if (!cleanUsername) {
-      setError('Escribe tu nombre antes de crear una sala.');
-      return;
-    }
-
     if (!cleanRoom) {
       setError('Escribe un codigo para la sala.');
       return;
@@ -260,7 +255,7 @@ export default function Login({ onJoin }: LoginProps) {
 
             <button
               type="submit"
-              disabled={creating || !socketReady || !username.trim() || !newRoom.trim()}
+              disabled={creating || !socketReady || !newRoom.trim()}
               className="mt-4 flex w-full items-center justify-center gap-2 rounded-lg bg-emerald-600 px-4 py-3 text-sm font-semibold text-white transition-colors hover:bg-emerald-700 disabled:cursor-not-allowed disabled:opacity-50"
             >
               <Plus className="h-4 w-4" />

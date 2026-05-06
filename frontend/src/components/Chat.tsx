@@ -84,22 +84,22 @@ export default function Chat({ username, room, onLeave }: ChatProps) {
     };
   }, []);
 
-  const markMessageAsRead = useCallback((messageId: string) => {
+  const markMessageAsRead = useCallback((message: MessageWithCountdown) => {
     const currentSocket = socketRef.current;
-    if (!currentSocket || readSentRef.current.has(messageId)) return;
+    if (!currentSocket || readSentRef.current.has(message.id)) return;
 
-    readSentRef.current.add(messageId);
+    readSentRef.current.add(message.id);
     setMessages((prev) =>
-      prev.map((message) => {
-        if (message.id !== messageId) return message;
+      prev.map((m) => {
+        if (m.id !== message.id) return m;
         return {
-          ...message,
+          ...m,
           readLocally: true,
         };
       }),
     );
 
-    currentSocket.emit('message_read', { message_id: messageId });
+    currentSocket.emit('message_read', { message_id: message.id });
   }, []);
 
   const setMessageRef = useCallback((messageId: string) => (node: HTMLDivElement | null) => {
@@ -215,7 +215,7 @@ export default function Chat({ username, room, onLeave }: ChatProps) {
     if (unreadIncomingMessages.length === 0) return;
 
     if (!('IntersectionObserver' in window)) {
-      unreadIncomingMessages.forEach((message) => markMessageAsRead(message.id));
+      unreadIncomingMessages.forEach((message) => markMessageAsRead(message));
       return;
     }
 
@@ -226,7 +226,8 @@ export default function Chat({ username, room, onLeave }: ChatProps) {
 
           const messageId = entry.target.getAttribute('data-message-id');
           if (messageId) {
-            markMessageAsRead(messageId);
+            const message = messages.find(m => m.id === messageId);
+            if (message) markMessageAsRead(message);
             observer.unobserve(entry.target);
           }
         });
