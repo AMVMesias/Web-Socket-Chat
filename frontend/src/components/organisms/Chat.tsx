@@ -1,6 +1,7 @@
 import type { FormEvent, MouseEvent as ReactMouseEvent } from 'react';
 import { Check, CheckCheck, Clock, Send } from 'lucide-react';
 import type { Message } from '../../types';
+import { chatStyles } from '../../styles/classNames';
 
 interface MessageWithCountdown extends Message {
   remainingTime?: number;
@@ -60,9 +61,9 @@ export default function Chat({
   };
 
   return (
-    <div className="flex-1 flex flex-col min-w-0">
+    <div className={chatStyles.panel}>
       {/* Posible componente: <MessageList /> */}
-      <div className="flex-1 overflow-y-auto p-6 space-y-6">
+      <div className={chatStyles.messageList}>
         {messages.map((message) => {
           const isMe = message.username === username;
           const readSummary = getReadSummary(message, Math.max(usersCount - 1, 0));
@@ -70,37 +71,27 @@ export default function Chat({
 
           // Posible componente: <ChatBubble />
           return (
-            <div key={message.id} className={`flex ${isMe ? 'justify-end' : 'justify-start'}`}>
+            <div key={message.id} className={chatStyles.messageRow(isMe)}>
               <div
                 ref={setMessageRef(message.id)}
                 data-message-id={message.id}
                 onContextMenu={(event) => handleMessageContextMenu(event, message, isMe)}
                 title={isMe ? 'Clic derecho para ver lectores' : undefined}
-                className={`max-w-[70%] rounded-2xl px-4 py-3 shadow-sm ${
-                  isMe ? 'bg-blue-600 text-white' : 'bg-gray-700 text-gray-100'
-                }`}
+                className={chatStyles.bubble(isMe)}
               >
-                {!isMe && (
-                  <div className="text-xs text-gray-300 font-bold mb-1">{message.username}</div>
-                )}
+                {!isMe && <div className={chatStyles.senderName}>{message.username}</div>}
 
-                <div className="break-words">{message.message}</div>
+                <div className={chatStyles.messageText}>{message.message}</div>
 
-                <div
-                  className={`flex flex-wrap items-center justify-end gap-2 mt-1 text-xs ${
-                    isMe ? 'text-blue-100' : 'text-gray-400'
-                  }`}
-                >
+                <div className={chatStyles.metaRow(isMe)}>
                   {message.ttl !== undefined && (
                     <div
-                      className={`flex items-center gap-1 ${
-                        message.expiresAt ? 'text-orange-200' : 'text-gray-300'
-                      }`}
+                      className={chatStyles.timer(Boolean(message.expiresAt))}
                       title={
                         message.expiresAt ? 'Autodestruccion activa' : 'Esperando que todos lean'
                       }
                     >
-                      <Clock className="w-3 h-3" />
+                      <Clock className={chatStyles.timerIcon} />
                       {message.expiresAt
                         ? formatRemainingTime(message.remainingTime)
                         : 'esperando todos'}
@@ -113,17 +104,13 @@ export default function Chat({
                     <button
                       type="button"
                       onClick={(event) => handleMessageContextMenu(event, message, true)}
-                      className="ml-1 flex items-center gap-1 rounded px-1 py-0.5 hover:bg-blue-500/40 focus:outline-none focus:ring-2 focus:ring-blue-200"
+                      className={chatStyles.readButton}
                       title={readSummary}
                     >
                       {readBy.length > 0 ? (
-                        <CheckCheck
-                          className={`w-4 h-4 ${
-                            message.all_read ? 'text-emerald-200' : 'text-blue-200'
-                          }`}
-                        />
+                        <CheckCheck className={chatStyles.readIcon(Boolean(message.all_read))} />
                       ) : (
-                        <Check className="w-4 h-4" />
+                        <Check className={chatStyles.unreadIcon} />
                       )}
                       <span>
                         {message.recipient_count
@@ -141,12 +128,12 @@ export default function Chat({
       </div>
 
       {/* Posible componente: <ChatInput /> */}
-      <div className="p-4 bg-gray-800 border-t border-gray-700">
-        <form onSubmit={handleSend} className="flex gap-2">
+      <div className={chatStyles.footer}>
+        <form onSubmit={handleSend} className={chatStyles.form}>
           <select
             value={ttl}
             onChange={(event) => setTtl(Number(event.target.value))}
-            className="bg-gray-700 border border-gray-600 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className={chatStyles.ttlSelect}
           >
             <option value={0}>Sin temporizador</option>
             <option value={10}>10 segundos</option>
@@ -159,15 +146,15 @@ export default function Chat({
             value={inputValue}
             onChange={(event) => setInputValue(event.target.value)}
             placeholder="Escribe un mensaje..."
-            className="flex-1 bg-gray-700 border border-gray-600 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className={chatStyles.messageInput}
           />
 
           <button
             type="submit"
             disabled={!socketReady || !inputValue.trim()}
-            className="bg-blue-600 hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed text-white rounded-lg px-4 py-2 flex items-center justify-center transition-colors"
+            className={chatStyles.sendButton}
           >
-            <Send className="w-5 h-5" />
+            <Send className={chatStyles.sendIcon} />
           </button>
         </form>
       </div>

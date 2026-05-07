@@ -4,6 +4,7 @@ import { io } from 'socket.io-client';
 import type { Socket } from 'socket.io-client';
 import { Eye } from 'lucide-react';
 import type { Message } from '../types';
+import { roomStyles } from '../styles/classNames';
 import ErrorTemplate from './templates/ErrorTemplate';
 import SideBar from './organisms/SideBar';
 import Chat from './organisms/Chat';
@@ -340,11 +341,7 @@ export default function Room({ username, room, onLeave }: ChatProps) {
   if (joinError) {
     return (
       <ErrorTemplate title="No se pudo entrar" subtitle={joinError}>
-        <button
-          type="button"
-          onClick={onLeave}
-          className="mt-5 w-full rounded-lg bg-blue-600 px-4 py-3 text-sm font-semibold transition-colors hover:bg-blue-700"
-        >
+        <button type="button" onClick={onLeave} className={roomStyles.joinErrorButton}>
           Volver al inicio
         </button>
       </ErrorTemplate>
@@ -352,7 +349,7 @@ export default function Room({ username, room, onLeave }: ChatProps) {
   }
 
   return (
-    <div className="flex h-screen bg-gray-900 text-white">
+    <div className={roomStyles.page}>
       {/* Barra lateral */}
       <SideBar room={room} username={username} users={users} onLeave={onLeave} />
       <Chat
@@ -376,29 +373,27 @@ export default function Room({ username, room, onLeave }: ChatProps) {
           role="dialog"
           aria-label="Lectores del mensaje"
           onClick={(event) => event.stopPropagation()}
-          className="fixed z-50 w-72 rounded-lg border border-gray-600 bg-gray-800 p-3 text-sm text-white shadow-2xl"
+          className={roomStyles.readerMenu}
           style={{ left: readerMenu.x, top: readerMenu.y }}
         >
-          <div className="mb-2 flex items-center gap-2 font-semibold">
-            <Eye className="h-4 w-4 text-blue-300" />
+          <div className={roomStyles.readerMenuHeader}>
+            <Eye className={roomStyles.readerMenuIcon} />
             Visto del mensaje
           </div>
-          <p className="mb-3 text-xs text-gray-400">
+          <p className={roomStyles.readerMenuSummary}>
             {getReadSummary(selectedMessage, Math.max(users.length - 1, 0))}
           </p>
 
           {(selectedMessage.readBy ?? []).length > 0 ? (
-            <ul className="max-h-36 space-y-1 overflow-y-auto">
+            <ul className={roomStyles.readerList}>
               {(selectedMessage.readBy ?? []).map((reader) => (
-                <li key={reader} className="rounded bg-gray-700 px-2 py-1">
+                <li key={reader} className={roomStyles.readerListItem}>
                   {reader}
                 </li>
               ))}
             </ul>
           ) : (
-            <p className="rounded bg-gray-700 px-2 py-2 text-xs text-gray-300">
-              Nadie lo ha leido todavia.
-            </p>
+            <p className={roomStyles.emptyReaders}>Nadie lo ha leido todavia.</p>
           )}
         </div>
       )}
