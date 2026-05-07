@@ -148,23 +148,43 @@ export default function Login({ onJoin }: LoginProps) {
   };
 
   return (
-    <div className="min-h-screen bg-zinc-950 text-zinc-100 font-sans">
-      {/* Background pattern */}
-      <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px] pointer-events-none"></div>
+    <div className="min-h-screen bg-zinc-950 text-zinc-100 font-sans selection:bg-blue-500/30 selection:text-blue-200">
+      {/* Background Atmosphere */}
+      <div className="fixed inset-0 z-0">
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]"></div>
+        <div className="absolute inset-0 bg-radial-gradient from-blue-500/5 via-transparent to-transparent opacity-50"></div>
+        <div className="absolute inset-0 bg-zinc-950 [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,transparent_0%,#000_100%)]"></div>
+        {/* Noise overlay */}
+        <div className="absolute inset-0 opacity-[0.03] pointer-events-none mix-blend-overlay bg-[url('https://grainy-gradients.vercel.app/noise.svg')]"></div>
+      </div>
       
-      <main className="relative mx-auto grid min-h-screen max-w-6xl grid-cols-1 gap-12 px-6 py-12 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
-        <section className="space-y-10">
-          <div className="space-y-4">
-            <div className="inline-flex items-center justify-center rounded-xl bg-blue-500/10 p-3 ring-1 ring-blue-500/30">
+      <main className="relative z-10 mx-auto grid min-h-screen max-w-6xl grid-cols-1 gap-12 px-6 py-12 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
+        <section className="space-y-12">
+          <div className="relative space-y-6">
+            <div className="relative inline-flex items-center justify-center rounded-2xl bg-blue-500/10 p-4 ring-1 ring-blue-500/30 shadow-[0_0_20px_rgba(59,130,246,0.1)]">
               <Lock className="h-8 w-8 text-blue-400" strokeWidth={1.5} />
+              <div className="absolute -top-1 -right-1 h-3 w-3 rounded-full bg-blue-500 blur-sm animate-pulse"></div>
             </div>
-            <div>
-              <h1 className="text-5xl font-extrabold tracking-tight text-white lg:text-6xl">
-                Nexus <span className="text-blue-400">ESPE</span>
+            
+            <div className="space-y-4">
+              <div className="inline-flex items-center gap-2 rounded-full border border-zinc-800 bg-zinc-900/50 px-3 py-1 text-[10px] font-black uppercase tracking-[0.2em] text-zinc-500">
+                <span className="relative flex h-2 w-2">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-blue-500"></span>
+                </span>
+                Protocolo de Red Activo
+              </div>
+              
+              <h1 className="text-6xl font-black tracking-tighter text-white lg:text-7xl xl:text-8xl">
+                Nexus <span className="relative inline-block">
+                  <span className="relative z-10 text-blue-500">ESPE</span>
+                  <span className="absolute -inset-1 z-0 bg-blue-500/20 blur-2xl"></span>
+                </span>
               </h1>
-              <p className="mt-4 text-lg text-zinc-300 max-w-md leading-relaxed">
-                Plataforma de comunicación segura y efímera. 
-                Conecta de forma privada en salas temporales.
+              
+              <p className="max-w-md text-lg font-medium leading-relaxed text-zinc-400">
+                Puerta de enlace a la comunicación <span className="text-zinc-200">encriptada y efímera</span>. 
+                Tu rastro digital termina aquí.
               </p>
             </div>
           </div>
