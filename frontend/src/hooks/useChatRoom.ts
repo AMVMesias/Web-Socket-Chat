@@ -19,6 +19,14 @@ interface UseChatRoomOptions {
 const readerMenuWidth = 272;
 const readerMenuHeight = 220;
 
+const createMessageId = () => {
+  if (typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function') {
+    return crypto.randomUUID();
+  }
+
+  return `${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 10)}`;
+};
+
 export const useChatRoom = ({ room, username }: UseChatRoomOptions) => {
   const socketRef = useRef<Socket | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
@@ -273,7 +281,7 @@ export const useChatRoom = ({ room, username }: UseChatRoomOptions) => {
       if (!inputValue.trim() || !currentSocket) return;
 
       const messageData = {
-        id: crypto.randomUUID(),
+        id: createMessageId(),
         message: inputValue,
         timestamp: new Date().toLocaleTimeString(),
         ttl: ttl > 0 ? ttl : undefined,

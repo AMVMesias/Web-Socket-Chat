@@ -6,9 +6,9 @@ export const loginStyles = {
   page: 'min-h-screen bg-zinc-950 text-zinc-100 font-sans selection:bg-blue-500/30 selection:text-blue-200',
   background: {
     wrapper: 'fixed inset-0 z-0 pointer-events-none',
-    grid: 'absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]',
+    grid: 'absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px] pointer-events-none',
     radial:
-      'absolute inset-0 bg-radial-gradient from-blue-500/5 via-transparent to-transparent opacity-50',
+      'absolute inset-0 bg-radial-gradient from-blue-500/5 via-transparent to-transparent opacity-50 pointer-events-none',
     mask: 'absolute inset-0 bg-zinc-950 [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,transparent_0%,#000_100%)] pointer-events-none',
     noise:
       'absolute inset-0 opacity-[0.03] pointer-events-none mix-blend-overlay bg-[radial-gradient(circle_at_center,#ffffff_1px,transparent_1px)] bg-[size:4px_4px]',
@@ -172,8 +172,8 @@ export const chatStyles = {
     'ml-1 flex items-center gap-1 rounded px-1 py-0.5 hover:bg-blue-500/40 focus:outline-none focus:ring-2 focus:ring-blue-400',
   readIcon: (allRead: boolean) => cn('w-3 h-3 md:w-4 md:h-4', allRead ? 'text-emerald-400' : 'text-blue-300'),
   unreadIcon: 'w-3 h-3 md:w-4 md:h-4 text-blue-300',
-  footer: 'p-3 md:p-4 bg-zinc-950/80 border-t border-zinc-800 shrink-0 backdrop-blur',
-  form: 'flex flex-row gap-2 items-center',
+  footer: 'relative z-20 p-3 md:p-4 bg-zinc-950/80 border-t border-zinc-800 shrink-0 backdrop-blur',
+  form: 'flex flex-row w-full gap-2 items-center',
   ttlSelect:
     'bg-zinc-900 border border-zinc-800 rounded-xl px-2 md:px-3 py-2.5 text-xs md:text-sm focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 max-w-[100px] md:max-w-none shrink-0 transition-all',
   messageInput:
