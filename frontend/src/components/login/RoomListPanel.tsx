@@ -25,8 +25,8 @@ export default function RoomListPanel({
             <RefreshCw className={loginStyles.roomsIcon} strokeWidth={2.5} />
           </div>
           <div>
-            <h2 className={loginStyles.roomsTitle}>Nodos Activos</h2>
-            <p className={loginStyles.roomsSubtitle}>Instancias disponibles</p>
+            <h2 className={loginStyles.roomsTitle}>Salas Activas</h2>
+            <p className={loginStyles.roomsSubtitle}>Salas disponibles</p>
           </div>
         </div>
 
@@ -44,7 +44,7 @@ export default function RoomListPanel({
         {rooms.length === 0 ? (
           <div className={loginStyles.emptyRooms}>
             <RefreshCw className={loginStyles.emptyRoomsIcon} />
-            <p className={loginStyles.emptyRoomsText}>Buscando Nodos...</p>
+            <p className={loginStyles.emptyRoomsText}>Buscando Salas...</p>
           </div>
         ) : (
           rooms.map((room, idx) => (

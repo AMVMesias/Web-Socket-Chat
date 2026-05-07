@@ -28,7 +28,7 @@ export default function CreateRoomForm({
           <Plus className={loginStyles.createIcon} strokeWidth={2.5} />
         </div>
         <div>
-          <h2 className={loginStyles.panelTitle}>Generar Nodo</h2>
+          <h2 className={loginStyles.panelTitle}>Crear Sala</h2>
           <p className={loginStyles.panelSubtitle}>Crea una instancia privada</p>
         </div>
       </div>

@@ -1,5 +1,5 @@
 import type { MouseEvent as ReactMouseEvent, SyntheticEvent } from 'react';
-import { Check, CheckCheck, Clock, Send } from 'lucide-react';
+import { Check, CheckCheck, Clock, Send, Menu } from 'lucide-react';
 import type { MessageWithCountdown } from '../../types';
 import { chatStyles } from '../../styles/classNames';
 import { getReadSummary } from '../../utils/chat';
@@ -21,6 +21,8 @@ interface ChatPanelProps {
     isMe: boolean,
   ) => void;
   handleSend: (event: SyntheticEvent<HTMLFormElement>) => void;
+  onToggleSidebar: () => void;
+  roomName: string;
 }
 
 export default function Chat({
@@ -36,6 +38,8 @@ export default function Chat({
   usersCount,
   handleMessageContextMenu,
   handleSend,
+  onToggleSidebar,
+  roomName,
 }: ChatPanelProps) {
   const formatRemainingTime = (seconds?: number) => {
     if (seconds === undefined) return 'en espera';
@@ -48,6 +52,20 @@ export default function Chat({
 
   return (
     <div className={chatStyles.panel}>
+      {/* Mobile Header */}
+      <div className={chatStyles.mobileHeader}>
+        <div className={chatStyles.mobileHeaderTitle}>
+          <button onClick={onToggleSidebar} className={chatStyles.menuButton} aria-label="Abrir menú">
+            <Menu className="h-6 w-6 text-zinc-300" />
+          </button>
+          <span>{roomName}</span>
+        </div>
+        <div className="text-xs text-emerald-400 font-medium flex items-center gap-1.5">
+          <div className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+          {usersCount} {usersCount === 1 ? 'conectado' : 'conectados'}
+        </div>
+      </div>
+
       {/* Posible componente: <MessageList /> */}
       <div className={chatStyles.messageList}>
         {messages.map((message) => {

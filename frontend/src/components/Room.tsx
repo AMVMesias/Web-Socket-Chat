@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useChatRoom } from '../hooks/useChatRoom';
 import { roomStyles } from '../styles/classNames';
 import Chat from './organisms/Chat';
@@ -12,6 +13,8 @@ interface RoomProps {
 }
 
 export default function Room({ username, room, onLeave }: RoomProps) {
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
   const {
     handleMessageContextMenu,
     handleSend,
@@ -41,7 +44,22 @@ export default function Room({ username, room, onLeave }: RoomProps) {
 
   return (
     <div className={roomStyles.page}>
-      <SideBar room={room} username={username} users={users} onLeave={onLeave} />
+      {/* Mobile overlay */}
+      <div 
+        className={roomStyles.mobileOverlay(isSidebarOpen)} 
+        onClick={() => setIsSidebarOpen(false)}
+        aria-hidden="true"
+      />
+
+      <SideBar 
+        room={room} 
+        username={username} 
+        users={users} 
+        onLeave={onLeave} 
+        isOpen={isSidebarOpen} 
+        onClose={() => setIsSidebarOpen(false)} 
+      />
+
       <Chat
         inputValue={inputValue}
         messages={messages}
@@ -55,6 +73,8 @@ export default function Room({ username, room, onLeave }: RoomProps) {
         usersCount={users.length}
         handleMessageContextMenu={handleMessageContextMenu}
         handleSend={handleSend}
+        onToggleSidebar={() => setIsSidebarOpen(true)}
+        roomName={room}
       />
 
       {readerMenu && selectedMessage && (

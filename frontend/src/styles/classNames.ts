@@ -5,11 +5,11 @@ export const cn = (...classes: ClassValue[]) => classes.filter(Boolean).join(' '
 export const loginStyles = {
   page: 'min-h-screen bg-zinc-950 text-zinc-100 font-sans selection:bg-blue-500/30 selection:text-blue-200',
   background: {
-    wrapper: 'fixed inset-0 z-0',
+    wrapper: 'fixed inset-0 z-0 pointer-events-none',
     grid: 'absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]',
     radial:
       'absolute inset-0 bg-radial-gradient from-blue-500/5 via-transparent to-transparent opacity-50',
-    mask: 'absolute inset-0 bg-zinc-950 [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,transparent_0%,#000_100%)]',
+    mask: 'absolute inset-0 bg-zinc-950 [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,transparent_0%,#000_100%)] pointer-events-none',
     noise:
       'absolute inset-0 opacity-[0.03] pointer-events-none mix-blend-overlay bg-[radial-gradient(circle_at_center,#ffffff_1px,transparent_1px)] bg-[size:4px_4px]',
   },
@@ -130,65 +130,79 @@ export const loginStyles = {
 export const roomStyles = {
   joinErrorButton:
     'mt-5 w-full rounded-lg bg-blue-600 px-4 py-3 text-sm font-semibold transition-colors hover:bg-blue-700',
-  page: 'flex h-screen bg-gray-900 text-white',
+  page: 'relative flex h-[100dvh] w-full bg-zinc-950 text-zinc-100 overflow-hidden',
+  mobileOverlay: (isOpen: boolean) =>
+    cn(
+      'fixed inset-0 z-40 bg-black/50 transition-opacity duration-300 md:hidden',
+      isOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none',
+    ),
   readerMenu:
-    'fixed z-50 w-72 rounded-lg border border-gray-600 bg-gray-800 p-3 text-sm text-white shadow-2xl',
+    'fixed z-50 w-72 rounded-lg border border-zinc-800 bg-zinc-900/90 backdrop-blur p-3 text-sm text-zinc-100 shadow-2xl',
   readerMenuHeader: 'mb-2 flex items-center gap-2 font-semibold',
-  readerMenuIcon: 'h-4 w-4 text-blue-300',
-  readerMenuSummary: 'mb-3 text-xs text-gray-400',
+  readerMenuIcon: 'h-4 w-4 text-blue-400',
+  readerMenuSummary: 'mb-3 text-xs text-zinc-400',
   readerList: 'max-h-36 space-y-1 overflow-y-auto',
-  readerListItem: 'rounded bg-gray-700 px-2 py-1',
-  emptyReaders: 'rounded bg-gray-700 px-2 py-2 text-xs text-gray-300',
+  readerListItem: 'rounded bg-zinc-800/80 px-2 py-1',
+  emptyReaders: 'rounded bg-zinc-800/80 px-2 py-2 text-xs text-zinc-400',
 };
 
 export const chatStyles = {
-  panel: 'flex-1 flex flex-col min-w-0',
-  messageList: 'flex-1 overflow-y-auto p-6 space-y-6',
+  panel: 'flex-1 flex flex-col min-w-0 h-full bg-zinc-900/40 relative z-10',
+  mobileHeader: 'md:hidden flex items-center justify-between p-4 border-b border-zinc-800 bg-zinc-900',
+  mobileHeaderTitle: 'font-bold flex items-center gap-2 text-sm',
+  menuButton: 'p-2 -ml-2 rounded-lg hover:bg-zinc-800 transition-colors',
+  messageList: 'flex-1 overflow-y-auto p-4 md:p-6 space-y-6',
   messageRow: (isMe: boolean) => cn('flex', isMe ? 'justify-end' : 'justify-start'),
   bubble: (isMe: boolean) =>
     cn(
-      'max-w-[70%] rounded-2xl px-4 py-3 shadow-sm',
-      isMe ? 'bg-blue-600 text-white' : 'bg-gray-700 text-gray-100',
+      'max-w-[85%] md:max-w-[70%] rounded-2xl px-4 py-3 shadow-sm',
+      isMe ? 'bg-blue-600 text-white' : 'bg-zinc-800 text-zinc-100',
     ),
-  senderName: 'text-xs text-gray-300 font-bold mb-1',
-  messageText: 'break-words',
+  senderName: 'text-[10px] md:text-xs text-zinc-400 font-bold mb-1 uppercase tracking-wider',
+  messageText: 'break-words text-sm md:text-base',
   metaRow: (isMe: boolean) =>
     cn(
-      'flex flex-wrap items-center justify-end gap-2 mt-1 text-xs',
-      isMe ? 'text-blue-100' : 'text-gray-400',
+      'flex flex-wrap items-center justify-end gap-2 mt-1 text-[10px] md:text-xs',
+      isMe ? 'text-blue-200' : 'text-zinc-500',
     ),
   timer: (isActive: boolean) =>
-    cn('flex items-center gap-1', isActive ? 'text-orange-200' : 'text-gray-300'),
+    cn('flex items-center gap-1', isActive ? 'text-orange-300' : 'text-zinc-500'),
   timerIcon: 'w-3 h-3',
   readButton:
-    'ml-1 flex items-center gap-1 rounded px-1 py-0.5 hover:bg-blue-500/40 focus:outline-none focus:ring-2 focus:ring-blue-200',
-  readIcon: (allRead: boolean) => cn('w-4 h-4', allRead ? 'text-emerald-200' : 'text-blue-200'),
-  unreadIcon: 'w-4 h-4',
-  footer: 'p-4 bg-gray-800 border-t border-gray-700',
-  form: 'flex gap-2',
+    'ml-1 flex items-center gap-1 rounded px-1 py-0.5 hover:bg-blue-500/40 focus:outline-none focus:ring-2 focus:ring-blue-400',
+  readIcon: (allRead: boolean) => cn('w-3 h-3 md:w-4 md:h-4', allRead ? 'text-emerald-400' : 'text-blue-300'),
+  unreadIcon: 'w-3 h-3 md:w-4 md:h-4 text-blue-300',
+  footer: 'p-3 md:p-4 bg-zinc-950/80 border-t border-zinc-800 shrink-0 backdrop-blur',
+  form: 'flex flex-row gap-2 items-center',
   ttlSelect:
-    'bg-gray-700 border border-gray-600 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500',
+    'bg-zinc-900 border border-zinc-800 rounded-xl px-2 md:px-3 py-2.5 text-xs md:text-sm focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 max-w-[100px] md:max-w-none shrink-0 transition-all',
   messageInput:
-    'flex-1 bg-gray-700 border border-gray-600 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500',
+    'flex-1 bg-zinc-900 border border-zinc-800 rounded-xl px-4 py-2.5 text-sm md:text-base focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 min-w-0 transition-all placeholder-zinc-500',
   sendButton:
-    'bg-blue-600 hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed text-white rounded-lg px-4 py-2 flex items-center justify-center transition-colors',
-  sendIcon: 'w-5 h-5',
+    'bg-blue-600 hover:bg-blue-500 disabled:opacity-50 disabled:cursor-not-allowed text-white rounded-xl px-4 py-2.5 flex items-center justify-center transition-all shrink-0 active:scale-95',
+  sendIcon: 'w-4 h-4 md:w-5 md:h-5',
 };
 
 export const sideBarStyles = {
-  panel: 'w-64 bg-gray-800 border-r border-gray-700 flex flex-col',
-  header: 'p-4 border-b border-gray-700',
-  title: 'text-xl font-bold flex items-center gap-2',
-  titleIcon: 'w-5 h-5',
-  username: 'text-sm text-gray-400 mt-1',
-  body: 'flex-1 overflow-y-auto p-4',
-  usersTitle: 'text-sm font-semibold text-gray-400 uppercase tracking-wider mb-3',
+  panel: (isOpen: boolean) =>
+    cn(
+      'fixed inset-y-0 left-0 z-50 w-72 bg-zinc-950 border-r border-zinc-800 flex flex-col transition-transform duration-300 ease-in-out md:relative md:translate-x-0',
+      isOpen ? 'translate-x-0 shadow-2xl' : '-translate-x-full'
+    ),
+  header: 'p-4 md:p-6 border-b border-zinc-800 shrink-0 bg-zinc-900/50',
+  headerTop: 'flex items-center justify-between',
+  closeButton: 'md:hidden p-2 -mr-2 text-zinc-400 hover:text-white hover:bg-zinc-800 rounded-lg transition-colors',
+  title: 'text-lg md:text-xl font-black flex items-center gap-2 tracking-tight',
+  titleIcon: 'w-5 h-5 text-blue-500',
+  username: 'text-xs md:text-sm text-zinc-500 mt-2 font-medium',
+  body: 'flex-1 overflow-y-auto p-4 md:p-6',
+  usersTitle: 'text-[10px] md:text-xs font-black text-zinc-500 uppercase tracking-widest mb-4',
   userList: 'space-y-2',
-  userItem: 'flex items-center gap-2',
-  onlineDot: 'w-2 h-2 rounded-full bg-green-500',
-  footer: 'p-4 border-t border-gray-700',
+  userItem: 'flex items-center gap-3 text-sm font-medium text-zinc-300',
+  onlineDot: 'w-2 h-2 rounded-full bg-emerald-500 shrink-0 shadow-[0_0_8px_rgba(16,185,129,0.4)]',
+  footer: 'p-4 md:p-6 border-t border-zinc-800 shrink-0 bg-zinc-900/50',
   leaveButton:
-    'w-full flex items-center justify-center gap-2 py-2 px-4 bg-red-600 hover:bg-red-700 rounded-lg transition-colors',
+    'w-full flex items-center justify-center gap-2 py-3 px-4 bg-zinc-800 hover:bg-red-500/10 hover:text-red-500 border border-zinc-700 hover:border-red-500/30 rounded-xl transition-all text-sm font-bold',
   leaveIcon: 'w-4 h-4',
 };
 
