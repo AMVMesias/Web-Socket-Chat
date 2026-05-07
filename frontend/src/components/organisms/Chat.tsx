@@ -1,13 +1,8 @@
 import type { FormEvent, MouseEvent as ReactMouseEvent } from 'react';
 import { Check, CheckCheck, Clock, Send } from 'lucide-react';
-import type { Message } from '../../types';
+import type { MessageWithCountdown } from '../../types';
 import { chatStyles } from '../../styles/classNames';
-
-interface MessageWithCountdown extends Message {
-  remainingTime?: number;
-  expiresAt?: number;
-  readLocally?: boolean;
-}
+import { getReadSummary } from '../../utils/chat';
 
 interface ChatPanelProps {
   inputValue: string;
@@ -49,15 +44,6 @@ export default function Chat({
     const minutes = Math.floor(seconds / 60);
     const remainingSeconds = seconds % 60;
     return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
-  };
-
-  const getReadSummary = (message: MessageWithCountdown, fallbackRecipientCount: number) => {
-    const readCount = message.read_count ?? message.readBy?.length ?? 0;
-    const recipientCount = message.recipient_count ?? fallbackRecipientCount;
-
-    if (recipientCount === 0) return 'Sin receptores';
-    if (message.all_read) return `Todos leyeron (${readCount}/${recipientCount})`;
-    return `Leido por ${readCount}/${recipientCount}`;
   };
 
   return (
