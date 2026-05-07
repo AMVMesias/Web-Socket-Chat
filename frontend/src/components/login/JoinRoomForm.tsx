@@ -1,10 +1,10 @@
-import type { FormEvent } from 'react';
+import type { SyntheticEvent } from 'react';
 import { Users } from 'lucide-react';
 import { loginStyles } from '../../styles/classNames';
 
 interface JoinRoomFormProps {
   isRoomFull?: boolean;
-  onSubmit: (event: FormEvent) => void;
+  onSubmit: (event: SyntheticEvent<HTMLFormElement>) => void;
   selectedRoom: string;
   setSelectedRoom: (value: string) => void;
   setUsername: (value: string) => void;

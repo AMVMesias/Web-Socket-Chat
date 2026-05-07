@@ -1,4 +1,4 @@
-import type { FormEvent } from 'react';
+import type { SyntheticEvent } from 'react';
 import { Plus, RefreshCw } from 'lucide-react';
 import { loginStyles } from '../../styles/classNames';
 
@@ -6,7 +6,7 @@ interface CreateRoomFormProps {
   capacity: number;
   creating: boolean;
   newRoom: string;
-  onSubmit: (event: FormEvent) => void;
+  onSubmit: (event: SyntheticEvent<HTMLFormElement>) => void;
   setCapacity: (value: number) => void;
   setNewRoom: (value: string) => void;
   socketReady: boolean;

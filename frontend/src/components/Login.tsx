@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react';
-import type { FormEvent } from 'react';
+import type { SyntheticEvent } from 'react';
 import { useRoomLobby } from '../hooks/useRoomLobby';
 import { loginStyles } from '../styles/classNames';
 import CreateRoomForm from './login/CreateRoomForm';
@@ -16,6 +16,8 @@ interface LoginProps {
 const getErrorMessage = (error: unknown, fallback: string) => {
   return error instanceof Error ? error.message : fallback;
 };
+
+type FormSubmitEvent = SyntheticEvent<HTMLFormElement>;
 
 export default function Login({ onJoin }: LoginProps) {
   const { creating, createRoom, refreshRooms, rooms, socketReady } = useRoomLobby();
@@ -36,7 +38,7 @@ export default function Login({ onJoin }: LoginProps) {
     setFeedback('');
   };
 
-  const handleCreateRoom = async (event: FormEvent) => {
+  const handleCreateRoom = async (event: FormSubmitEvent) => {
     event.preventDefault();
     clearMessages();
 
@@ -58,7 +60,7 @@ export default function Login({ onJoin }: LoginProps) {
     }
   };
 
-  const handleJoin = (event: FormEvent) => {
+  const handleJoin = (event: FormSubmitEvent) => {
     event.preventDefault();
     clearMessages();
 

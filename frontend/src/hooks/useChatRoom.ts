@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import type { FormEvent, MouseEvent as ReactMouseEvent } from 'react';
+import type { MouseEvent as ReactMouseEvent, SyntheticEvent } from 'react';
 import { io } from 'socket.io-client';
 import type { Socket } from 'socket.io-client';
 import { socketUrl } from '../config/socket';
@@ -267,7 +267,7 @@ export const useChatRoom = ({ room, username }: UseChatRoomOptions) => {
   }, [readerMenu]);
 
   const handleSend = useCallback(
-    (event: FormEvent) => {
+    (event: SyntheticEvent<HTMLFormElement>) => {
       event.preventDefault();
       const currentSocket = socketRef.current;
       if (!inputValue.trim() || !currentSocket) return;

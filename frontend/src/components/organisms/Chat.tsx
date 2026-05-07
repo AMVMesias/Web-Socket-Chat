@@ -1,4 +1,4 @@
-import type { FormEvent, MouseEvent as ReactMouseEvent } from 'react';
+import type { MouseEvent as ReactMouseEvent, SyntheticEvent } from 'react';
 import { Check, CheckCheck, Clock, Send } from 'lucide-react';
 import type { MessageWithCountdown } from '../../types';
 import { chatStyles } from '../../styles/classNames';
@@ -20,7 +20,7 @@ interface ChatPanelProps {
     message: MessageWithCountdown,
     isMe: boolean,
   ) => void;
-  handleSend: (event: FormEvent) => void;
+  handleSend: (event: SyntheticEvent<HTMLFormElement>) => void;
 }
 
 export default function Chat({
