@@ -169,76 +169,88 @@ export default function Login({ onJoin }: LoginProps) {
             </div>
           </div>
 
-          <form onSubmit={handleJoin} className="space-y-6 rounded-2xl border border-zinc-800 bg-zinc-900/60 p-8 shadow-2xl backdrop-blur-sm">
-            <div className="space-y-2">
-              <label htmlFor="username" className="text-xs font-bold uppercase tracking-[0.2em] text-zinc-400">
-                Identidad
+          <form onSubmit={handleJoin} className="group/form relative space-y-6 rounded-3xl border border-zinc-800 bg-zinc-900/40 p-10 shadow-[0_20px_50px_rgba(0,0,0,0.5)] backdrop-blur-xl transition-all hover:border-zinc-700/50">
+            {/* Glow effect on hover */}
+            <div className="absolute -inset-0.5 rounded-3xl bg-gradient-to-br from-blue-500/20 to-purple-500/0 opacity-0 blur transition-opacity group-hover/form:opacity-100"></div>
+            
+            <div className="relative space-y-2">
+              <label htmlFor="username" className="text-[10px] font-black uppercase tracking-[0.3em] text-zinc-500 transition-colors group-focus-within/form:text-blue-400">
+                Identidad Digital
               </label>
-              <input
-                id="username"
-                type="text"
-                required
-                className="block w-full rounded-xl border border-zinc-700 bg-zinc-950 px-4 py-4 text-sm text-white placeholder-zinc-500 transition-all focus:border-blue-400 focus:outline-none focus:ring-1 focus:ring-blue-400"
-                placeholder="Escribe tu seudónimo"
-                value={username}
-                onChange={(event) => setUsername(event.target.value)}
-              />
+              <div className="group/input relative">
+                <input
+                  id="username"
+                  type="text"
+                  required
+                  className="block w-full rounded-2xl border border-zinc-800 bg-zinc-950/50 px-5 py-4 text-sm text-white placeholder-zinc-600 outline-none transition-all focus:border-blue-500/50 focus:bg-zinc-950 focus:ring-4 focus:ring-blue-500/10"
+                  placeholder="Tu alias en la red"
+                  value={username}
+                  onChange={(event) => setUsername(event.target.value)}
+                />
+                <div className="absolute inset-0 rounded-2xl bg-blue-500/5 opacity-0 transition-opacity group-focus-within/input:opacity-100 pointer-events-none"></div>
+              </div>
             </div>
 
-            <div className="space-y-2">
-              <label htmlFor="room" className="text-xs font-bold uppercase tracking-[0.2em] text-zinc-400">
-                Sala de Acceso
+            <div className="relative space-y-2">
+              <label htmlFor="room" className="text-[10px] font-black uppercase tracking-[0.3em] text-zinc-500 transition-colors group-focus-within/form:text-blue-400">
+                Coordenadas de Sala
               </label>
-              <input
-                id="room"
-                type="text"
-                required
-                className="block w-full rounded-xl border border-zinc-700 bg-zinc-950 px-4 py-4 text-sm text-white placeholder-zinc-500 transition-all focus:border-blue-400 focus:outline-none focus:ring-1 focus:ring-blue-400"
-                placeholder="Selecciona o escribe el código"
-                value={selectedRoom}
-                onChange={(event) => setSelectedRoom(event.target.value)}
-              />
+              <div className="group/input relative">
+                <input
+                  id="room"
+                  type="text"
+                  required
+                  className="block w-full rounded-2xl border border-zinc-800 bg-zinc-950/50 px-5 py-4 text-sm text-white placeholder-zinc-600 outline-none transition-all focus:border-blue-500/50 focus:bg-zinc-950 focus:ring-4 focus:ring-blue-500/10"
+                  placeholder="Código de acceso"
+                  value={selectedRoom}
+                  onChange={(event) => setSelectedRoom(event.target.value)}
+                />
+                <div className="absolute inset-0 rounded-2xl bg-blue-500/5 opacity-0 transition-opacity group-focus-within/input:opacity-100 pointer-events-none"></div>
+              </div>
             </div>
 
             <button
               type="submit"
               disabled={!username.trim() || !selectedRoom.trim() || selectedRoomInfo?.full}
-              className="group flex w-full items-center justify-center gap-3 rounded-xl bg-blue-500 px-6 py-4 text-sm font-bold text-white transition-all hover:bg-blue-400 hover:shadow-[0_0_20px_rgba(59,130,246,0.3)] disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:shadow-none"
+              className="relative flex w-full items-center justify-center gap-3 overflow-hidden rounded-2xl bg-blue-600 px-6 py-5 text-sm font-black uppercase tracking-widest text-white shadow-[0_10px_20px_rgba(37,99,235,0.3)] transition-all hover:-translate-y-0.5 hover:bg-blue-500 hover:shadow-[0_15px_30px_rgba(37,99,235,0.4)] active:translate-y-0 disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:translate-y-0 disabled:hover:shadow-none"
             >
-              <Users className="h-4 w-4 transition-transform group-hover:scale-110" strokeWidth={2} />
-              Acceder a Nexus
+              <Users className="h-4 w-4" strokeWidth={2.5} />
+              Acceder al Nexo
             </button>
           </form>
 
           {(error || feedback) && (
             <div
-              className={`rounded-xl border px-6 py-4 text-xs font-semibold animate-in fade-in slide-in-from-top-2 duration-300 ${
+              className={`rounded-2xl border px-6 py-4 text-xs font-bold animate-in fade-in zoom-in-95 duration-500 ${
                 error
-                  ? 'border-red-500/30 bg-red-500/10 text-red-300'
-                  : 'border-emerald-500/30 bg-emerald-500/10 text-emerald-300'
+                  ? 'border-red-500/30 bg-red-500/5 text-red-400'
+                  : 'border-emerald-500/30 bg-emerald-500/5 text-emerald-400'
               }`}
             >
-              <div className="flex items-center gap-2">
-                <div className={`h-1.5 w-1.5 rounded-full ${error ? 'bg-red-400' : 'bg-emerald-400'}`} />
+              <div className="flex items-center gap-3">
+                <div className={`h-2 w-2 rounded-full ring-4 ${error ? 'bg-red-500 ring-red-500/20' : 'bg-blue-500 ring-blue-500/20'}`} />
                 {error || feedback}
               </div>
             </div>
           )}
         </section>
 
-        <section className="grid gap-6">
-          <form onSubmit={handleCreateRoom} className="rounded-2xl border border-zinc-800 bg-zinc-900/40 p-8 shadow-xl backdrop-blur-sm">
-            <div className="mb-6 flex items-center gap-3">
-              <div className="rounded-lg bg-zinc-800/80 p-2 ring-1 ring-zinc-600/50">
-                <Plus className="h-4 w-4 text-blue-400" strokeWidth={2} />
+        <section className="grid gap-8">
+          <form onSubmit={handleCreateRoom} className="group/create relative rounded-3xl border border-zinc-800 bg-zinc-900/30 p-8 backdrop-blur-md transition-all hover:border-zinc-700/50">
+            <div className="mb-8 flex items-center gap-4">
+              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-zinc-800/80 ring-1 ring-zinc-700/50 transition-transform group-hover/create:scale-110">
+                <Plus className="h-5 w-5 text-blue-400" strokeWidth={2.5} />
               </div>
-              <h2 className="text-lg font-bold text-white tracking-tight">Nueva Sala</h2>
+              <div>
+                <h2 className="text-lg font-black uppercase tracking-tight text-white">Generar Nodo</h2>
+                <p className="text-[10px] font-medium text-zinc-500">Crea una instancia privada</p>
+              </div>
             </div>
 
-            <div className="grid gap-4 sm:grid-cols-[1fr_120px]">
+            <div className="grid gap-6 sm:grid-cols-[1fr_120px]">
               <div className="space-y-2">
-                <label htmlFor="new-room" className="text-[10px] font-bold uppercase tracking-[0.2em] text-zinc-400">
-                  Código Único
+                <label htmlFor="new-room" className="text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400">
+                  ID Único
                 </label>
                 <input
                   id="new-room"
@@ -251,7 +263,7 @@ export default function Login({ onJoin }: LoginProps) {
               </div>
 
               <div className="space-y-2">
-                <label htmlFor="capacity" className="text-[10px] font-bold uppercase tracking-[0.2em] text-zinc-400">
+                <label htmlFor="capacity" className="text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400">
                   Cupo
                 </label>
                 <input
@@ -269,35 +281,39 @@ export default function Login({ onJoin }: LoginProps) {
             <button
               type="submit"
               disabled={creating || !socketReady || !newRoom.trim()}
-              className="mt-6 flex w-full items-center justify-center gap-2 rounded-xl border border-zinc-700 bg-zinc-800/50 px-4 py-3 text-xs font-bold text-zinc-300 transition-all hover:bg-zinc-700 hover:text-white disabled:opacity-20"
+              className="mt-8 flex w-full items-center justify-center gap-2 rounded-xl border border-zinc-700 bg-zinc-800/50 px-5 py-4 text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400 transition-all hover:border-zinc-700 hover:bg-zinc-700 hover:text-white disabled:opacity-20"
             >
-              {creating ? 'Procesando...' : 'Inicializar Sala'}
+              {creating ? 'Iniciando Red...' : 'Establecer Enlace'}
             </button>
           </form>
 
-          <div className="rounded-2xl border border-zinc-800 bg-zinc-900/40 p-8 shadow-xl backdrop-blur-sm">
-            <div className="mb-6 flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <div className="rounded-lg bg-zinc-800/80 p-2 ring-1 ring-zinc-600/50">
-                  <RefreshCw className="h-4 w-4 text-zinc-300" strokeWidth={2} />
+          <div className="rounded-3xl border border-zinc-800 bg-zinc-900/40 p-8 shadow-xl backdrop-blur-sm">
+            <div className="mb-8 flex items-center justify-between">
+              <div className="flex items-center gap-4">
+                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-zinc-800/80 ring-1 ring-zinc-600/50">
+                  <RefreshCw className="h-5 w-5 text-zinc-300" strokeWidth={2.5} />
                 </div>
-                <h2 className="text-lg font-bold text-white tracking-tight">Nodos Activos</h2>
+                <div>
+                  <h2 className="text-lg font-black uppercase tracking-tight text-white uppercase">Nodos Activos</h2>
+                  <p className="text-[10px] font-medium text-zinc-500">Instancias disponibles</p>
+                </div>
               </div>
 
               <button
                 type="button"
                 onClick={refreshRooms}
                 disabled={!socketReady}
-                className="group rounded-full bg-zinc-800/80 p-2 text-zinc-400 ring-1 ring-zinc-700/50 hover:bg-zinc-700 hover:text-white transition-all disabled:opacity-20"
+                className="group flex h-10 w-10 items-center justify-center rounded-full bg-zinc-800/80 text-zinc-400 ring-1 ring-zinc-700/50 hover:bg-zinc-700 hover:text-white transition-all disabled:opacity-20"
               >
-                <RefreshCw className="h-3.5 w-3.5 transition-transform group-hover:rotate-180 duration-500" strokeWidth={2} />
+                <RefreshCw className="h-4 w-4 transition-transform duration-700 group-hover:rotate-180" strokeWidth={2.5} />
               </button>
             </div>
 
-            <div className="max-h-72 space-y-3 overflow-y-auto pr-2 custom-scrollbar">
+            <div className="max-h-72 space-y-4 overflow-y-auto pr-3 custom-scrollbar">
               {rooms.length === 0 ? (
-                <div className="flex flex-col items-center justify-center rounded-xl border border-dashed border-zinc-800 py-12 text-zinc-500">
-                  <p className="text-xs uppercase tracking-widest font-bold">Sin nodos activos</p>
+                <div className="flex flex-col items-center justify-center rounded-2xl border border-dashed border-zinc-800 py-16 text-zinc-500">
+                  <RefreshCw className="mb-4 h-8 w-8 opacity-20 animate-spin-slow" />
+                  <p className="text-[10px] font-black uppercase tracking-[0.3em]">Buscando Nodos...</p>
                 </div>
               ) : (
                 rooms.map((room) => (
@@ -310,27 +326,35 @@ export default function Login({ onJoin }: LoginProps) {
                       setError('');
                       setFeedback('');
                     }}
-                    className={`group relative flex w-full items-center justify-between gap-4 rounded-xl border p-4 text-left transition-all ${
+                    className={`group relative flex w-full flex-col gap-3 rounded-2xl border p-5 text-left transition-all ${
                       selectedRoom === room.room
                         ? 'border-blue-400/60 bg-blue-500/10 ring-1 ring-blue-400/60'
                         : 'border-zinc-800 bg-zinc-950/80 hover:border-zinc-600 hover:bg-zinc-800/50'
                     } ${room.full ? 'cursor-not-allowed opacity-40' : ''}`}
                   >
-                    <div className="space-y-1">
-                      <span className="block text-sm font-bold text-zinc-200 group-hover:text-white transition-colors">
-                        {room.room}
-                      </span>
-                      <span className="block text-[9px] font-bold uppercase tracking-widest text-zinc-500 group-hover:text-zinc-400 transition-colors">
-                        Host: {room.created_by}
-                      </span>
-                    </div>
-                    <div className="flex items-center gap-3">
-                      <div className="text-right">
-                        <span className="block text-[10px] font-mono font-bold text-zinc-400 group-hover:text-blue-300 transition-colors">
-                          {room.current}/{room.capacity}
+                    <div className="flex items-center justify-between">
+                      <div className="space-y-1">
+                        <span className="block text-sm font-black text-zinc-200 group-hover:text-white transition-colors">
+                          {room.room}
+                        </span>
+                        <span className="block text-[8px] font-bold uppercase tracking-[0.2em] text-zinc-500">
+                          ID: {room.created_by}
                         </span>
                       </div>
-                      <div className={`h-1.5 w-1.5 rounded-full shadow-[0_0_8px] ${room.full ? 'bg-zinc-600 shadow-transparent' : 'bg-blue-400 shadow-blue-400/50 animate-pulse'}`} />
+                      <div className="flex items-center gap-3">
+                        <span className="font-mono text-[10px] font-bold text-zinc-400 group-hover:text-blue-300">
+                          {room.current}/{room.capacity}
+                        </span>
+                        <div className={`h-2 w-2 rounded-full shadow-[0_0_10px] ${room.full ? 'bg-zinc-700 shadow-transparent' : 'bg-blue-400 shadow-blue-400/50 animate-pulse'}`} />
+                      </div>
+                    </div>
+                    
+                    {/* Visual Capacity Indicator */}
+                    <div className="relative h-1 w-full overflow-hidden rounded-full bg-zinc-800">
+                      <div 
+                        className={`absolute inset-y-0 left-0 transition-all duration-500 ${room.full ? 'bg-zinc-600' : 'bg-blue-400'}`}
+                        style={{ width: `${(room.current / room.capacity) * 100}%` }}
+                      />
                     </div>
                   </button>
                 ))
