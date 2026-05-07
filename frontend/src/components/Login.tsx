@@ -158,8 +158,8 @@ export default function Login({ onJoin }: LoginProps) {
         <div className="absolute inset-0 opacity-[0.03] pointer-events-none mix-blend-overlay bg-[url('https://grainy-gradients.vercel.app/noise.svg')]"></div>
       </div>
       
-      <main className="relative z-10 mx-auto grid min-h-screen max-w-6xl grid-cols-1 gap-12 px-6 py-12 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
-        <section className="space-y-12">
+      <main className="relative z-10 mx-auto grid min-h-screen max-w-6xl grid-cols-1 gap-12 px-6 py-12 lg:grid-cols-[0.9fr_1.1fr] lg:items-center animate-in fade-in duration-1000 ease-out">
+        <section className="space-y-12 animate-in slide-in-from-left-8 duration-700 ease-out">
           <div className="relative space-y-6">
             <div className="relative inline-flex items-center justify-center rounded-2xl bg-blue-500/10 p-4 ring-1 ring-blue-500/30 shadow-[0_0_20px_rgba(59,130,246,0.1)]">
               <Lock className="h-8 w-8 text-blue-400" strokeWidth={1.5} />
@@ -178,12 +178,12 @@ export default function Login({ onJoin }: LoginProps) {
               <h1 className="text-6xl font-black tracking-tighter text-white lg:text-7xl xl:text-8xl">
                 Nexus <span className="relative inline-block">
                   <span className="relative z-10 text-blue-500">ESPE</span>
-                  <span className="absolute -inset-1 z-0 bg-blue-500/20 blur-2xl"></span>
+                  <span className="absolute -inset-1 z-0 bg-blue-500/20 blur-2xl animate-pulse"></span>
                 </span>
               </h1>
               
               <p className="max-w-md text-lg font-medium leading-relaxed text-zinc-400">
-                Puerta de enlace a la comunicación <span className="text-zinc-200">encriptada y efímera</span>. 
+                Puerta de enlace a la comunicación <span className="text-zinc-200 border-b border-blue-500/30">encriptada y efímera</span>. 
                 Tu rastro digital termina aquí.
               </p>
             </div>
@@ -232,16 +232,18 @@ export default function Login({ onJoin }: LoginProps) {
             <button
               type="submit"
               disabled={!username.trim() || !selectedRoom.trim() || selectedRoomInfo?.full}
-              className="relative flex w-full items-center justify-center gap-3 overflow-hidden rounded-2xl bg-blue-600 px-6 py-5 text-sm font-black uppercase tracking-widest text-white shadow-[0_10px_20px_rgba(37,99,235,0.3)] transition-all hover:-translate-y-0.5 hover:bg-blue-500 hover:shadow-[0_15px_30px_rgba(37,99,235,0.4)] active:translate-y-0 disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:translate-y-0 disabled:hover:shadow-none"
+              className="group relative flex w-full items-center justify-center gap-3 overflow-hidden rounded-2xl bg-blue-600 px-6 py-5 text-sm font-black uppercase tracking-widest text-white shadow-[0_10px_20px_rgba(37,99,235,0.3)] transition-all hover:-translate-y-0.5 hover:bg-blue-500 hover:shadow-[0_15px_30px_rgba(37,99,235,0.4)] active:translate-y-0 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:translate-y-0 disabled:hover:shadow-none"
             >
-              <Users className="h-4 w-4" strokeWidth={2.5} />
-              Acceder al Nexo
+              {/* Shine effect */}
+              <div className="absolute inset-0 translate-x-[-100%] bg-gradient-to-r from-transparent via-white/10 to-transparent transition-transform duration-1000 group-hover:translate-x-[100%]"></div>
+              <Users className="h-4 w-4 relative z-10" strokeWidth={2.5} />
+              <span className="relative z-10">Acceder al Nexo</span>
             </button>
           </form>
 
           {(error || feedback) && (
             <div
-              className={`rounded-2xl border px-6 py-4 text-xs font-bold animate-in fade-in zoom-in-95 duration-500 ${
+              className={`rounded-2xl border px-6 py-4 text-xs font-bold animate-in fade-in zoom-in-95 duration-500 fill-mode-both ${
                 error
                   ? 'border-red-500/30 bg-red-500/5 text-red-400'
                   : 'border-emerald-500/30 bg-emerald-500/5 text-emerald-400'
@@ -255,10 +257,10 @@ export default function Login({ onJoin }: LoginProps) {
           )}
         </section>
 
-        <section className="grid gap-8">
-          <form onSubmit={handleCreateRoom} className="group/create relative rounded-3xl border border-zinc-800 bg-zinc-900/30 p-8 backdrop-blur-md transition-all hover:border-zinc-700/50">
+        <section className="grid gap-8 animate-in slide-in-from-right-8 duration-700 ease-out delay-150 fill-mode-both">
+          <form onSubmit={handleCreateRoom} className="group/create relative rounded-3xl border border-zinc-800 bg-zinc-900/30 p-8 backdrop-blur-md transition-all hover:border-zinc-700/50 hover:bg-zinc-900/40">
             <div className="mb-8 flex items-center gap-4">
-              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-zinc-800/80 ring-1 ring-zinc-700/50 transition-transform group-hover/create:scale-110">
+              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-zinc-800/80 ring-1 ring-zinc-700/50 transition-transform group-hover/create:scale-110 group-hover/create:rotate-3">
                 <Plus className="h-5 w-5 text-blue-400" strokeWidth={2.5} />
               </div>
               <div>
@@ -275,8 +277,8 @@ export default function Login({ onJoin }: LoginProps) {
                 <input
                   id="new-room"
                   type="text"
-                  className="block w-full rounded-xl border border-zinc-700 bg-zinc-950 px-4 py-3 text-sm text-white placeholder-zinc-500 focus:border-blue-400 focus:outline-none focus:ring-1 focus:ring-blue-400"
-                  placeholder="ej. mi-nexus-1"
+                  className="block w-full rounded-xl border border-zinc-700 bg-zinc-950/30 px-4 py-3 text-sm text-white placeholder-zinc-500 focus:border-blue-400 focus:bg-zinc-950 outline-none transition-all"
+                  placeholder="Ej. alfa-centauri"
                   value={newRoom}
                   onChange={(event) => setNewRoom(event.target.value)}
                 />
@@ -291,7 +293,7 @@ export default function Login({ onJoin }: LoginProps) {
                   type="number"
                   min={2}
                   max={20}
-                  className="block w-full rounded-xl border border-zinc-700 bg-zinc-950 px-4 py-3 text-center text-sm text-white focus:border-blue-400 focus:outline-none focus:ring-1 focus:ring-blue-400"
+                  className="block w-full rounded-xl border border-zinc-700 bg-zinc-950/30 px-4 py-3 text-center text-sm text-white focus:border-blue-400 focus:bg-zinc-950 outline-none transition-all"
                   value={capacity}
                   onChange={(event) => setCapacity(Number(event.target.value))}
                 />
@@ -301,8 +303,13 @@ export default function Login({ onJoin }: LoginProps) {
             <button
               type="submit"
               disabled={creating || !socketReady || !newRoom.trim()}
-              className="mt-8 flex w-full items-center justify-center gap-2 rounded-xl border border-zinc-700 bg-zinc-800/50 px-5 py-4 text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400 transition-all hover:border-zinc-700 hover:bg-zinc-700 hover:text-white disabled:opacity-20"
+              className="group/btn mt-8 flex w-full items-center justify-center gap-2 rounded-xl border border-zinc-700 bg-zinc-800/50 px-5 py-4 text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400 transition-all hover:border-zinc-500 hover:bg-zinc-800 hover:text-white disabled:opacity-20"
             >
+              {creating ? (
+                <RefreshCw className="h-3 w-3 animate-spin" strokeWidth={3} />
+              ) : (
+                <Plus className="h-3 w-3 transition-transform group-hover/btn:rotate-90" strokeWidth={3} />
+              )}
               {creating ? 'Iniciando Red...' : 'Establecer Enlace'}
             </button>
           </form>
@@ -323,7 +330,7 @@ export default function Login({ onJoin }: LoginProps) {
                 type="button"
                 onClick={refreshRooms}
                 disabled={!socketReady}
-                className="group flex h-10 w-10 items-center justify-center rounded-full bg-zinc-800/80 text-zinc-400 ring-1 ring-zinc-700/50 hover:bg-zinc-700 hover:text-white transition-all disabled:opacity-20"
+                className="group flex h-10 w-10 items-center justify-center rounded-full bg-zinc-800/80 text-zinc-400 ring-1 ring-zinc-700/50 hover:bg-zinc-700 hover:text-white transition-all hover:ring-zinc-500 disabled:opacity-20"
               >
                 <RefreshCw className="h-4 w-4 transition-transform duration-700 group-hover:rotate-180" strokeWidth={2.5} />
               </button>
@@ -336,7 +343,7 @@ export default function Login({ onJoin }: LoginProps) {
                   <p className="text-[10px] font-black uppercase tracking-[0.3em]">Buscando Nodos...</p>
                 </div>
               ) : (
-                rooms.map((room) => (
+                rooms.map((room, idx) => (
                   <button
                     key={room.room}
                     type="button"
@@ -346,10 +353,11 @@ export default function Login({ onJoin }: LoginProps) {
                       setError('');
                       setFeedback('');
                     }}
-                    className={`group relative flex w-full flex-col gap-3 rounded-2xl border p-5 text-left transition-all ${
+                    style={{ animationDelay: `${idx * 75}ms` }}
+                    className={`group relative flex w-full flex-col gap-3 rounded-2xl border p-5 text-left transition-all animate-in fade-in slide-in-from-right-4 duration-500 fill-mode-both ${
                       selectedRoom === room.room
-                        ? 'border-blue-400/60 bg-blue-500/10 ring-1 ring-blue-400/60'
-                        : 'border-zinc-800 bg-zinc-950/80 hover:border-zinc-600 hover:bg-zinc-800/50'
+                        ? 'border-blue-400/60 bg-blue-500/10 ring-1 ring-blue-400/60 scale-[1.02]'
+                        : 'border-zinc-800 bg-zinc-950/80 hover:border-zinc-600 hover:bg-zinc-800/50 hover:scale-[1.01]'
                     } ${room.full ? 'cursor-not-allowed opacity-40' : ''}`}
                   >
                     <div className="flex items-center justify-between">
@@ -362,7 +370,7 @@ export default function Login({ onJoin }: LoginProps) {
                         </span>
                       </div>
                       <div className="flex items-center gap-3">
-                        <span className="font-mono text-[10px] font-bold text-zinc-400 group-hover:text-blue-300">
+                        <span className="font-mono text-[10px] font-bold text-zinc-400 group-hover:text-blue-300 transition-colors">
                           {room.current}/{room.capacity}
                         </span>
                         <div className={`h-2 w-2 rounded-full shadow-[0_0_10px] ${room.full ? 'bg-zinc-700 shadow-transparent' : 'bg-blue-400 shadow-blue-400/50 animate-pulse'}`} />
@@ -372,7 +380,7 @@ export default function Login({ onJoin }: LoginProps) {
                     {/* Visual Capacity Indicator */}
                     <div className="relative h-1 w-full overflow-hidden rounded-full bg-zinc-800">
                       <div 
-                        className={`absolute inset-y-0 left-0 transition-all duration-500 ${room.full ? 'bg-zinc-600' : 'bg-blue-400'}`}
+                        className={`absolute inset-y-0 left-0 transition-all duration-700 ease-out ${room.full ? 'bg-zinc-600' : 'bg-blue-400 shadow-[0_0_10px_rgba(59,130,246,0.5)]'}`}
                         style={{ width: `${(room.current / room.capacity) * 100}%` }}
                       />
                     </div>
